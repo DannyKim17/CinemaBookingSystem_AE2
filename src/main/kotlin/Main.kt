@@ -1,3 +1,5 @@
+fun makeSeats() = List(10) { i -> Seat("S${i + 1}") }
+
 fun main() {
     // Admin login
     val admin = User("admin", "Admin123", "Admin")
@@ -8,13 +10,10 @@ fun main() {
     val f3 = Film("Project Hail Mary", "Sci-Fi", 13.0)
     val f4 = Film("Ready or Not 2", "Horror", 11.0)
 
-    // Helper to create 10 seats
-    fun makeSeats() = List(10) { i -> Seat("S${i + 1}") }
-
     val screenings = mutableListOf<Screening>()
 
     // Adding 12 screenings
-    // Monday morning show for "The Bride!" ( it's Perfect for testing the Morning Discount)
+    // Monday morning show for "The Bride!" (perfect for testing the Morning Discount)
     screenings.add(Screening(f1, 1, "2026-03-23", "09:30", 0.0, makeSeats()))
     screenings.add(Screening(f1, 1, "2026-03-23", "15:00", 0.0, makeSeats()))
     screenings.add(Screening(f1, 2, "2026-03-24", "20:00", 0.0, makeSeats()))
