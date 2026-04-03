@@ -1,6 +1,7 @@
 fun viewFilmsAndScreenings(films: List<Film>, screenings: List<Screening>) {
     println("===== Film and Screening Info =====")
-    for (film in films) {
+    films.forEachIndexed { index, film ->
+        println("Film ${index + 1}:")
         println("Title: ${film.title}")
         println("Genre: ${film.genre}")
         println("Price: £${film.basePrice}")
@@ -13,10 +14,14 @@ fun viewFilmsAndScreenings(films: List<Film>, screenings: List<Screening>) {
         println("-----------------------------------")
     }
 }
+
 fun addFilmAndScreening(films: MutableList<Film>, screenings: MutableList<Screening>) {
     println("===== Add New Film =====")
     print("Enter film title: ")
     val title = readLine() ?: ""
+    if (title.isEmpty()) {
+        println("Warning: film title is empty!")
+    }
     print("Enter genre: ")
     val genre = readLine() ?: ""
     print("Enter base ticket price: ")
@@ -36,4 +41,9 @@ fun addFilmAndScreening(films: MutableList<Film>, screenings: MutableList<Screen
     screenings.add(newScreening)
 
     println("Film and screening added successfully!")
+    println("--- Added Film Details ---")
+    println("Title: ${newFilm.title}")
+    println("Genre: ${newFilm.genre}")
+    println("Price: £${newFilm.basePrice}")
+    println("Screening: Hall $hall | $date | $time")
 }
