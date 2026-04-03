@@ -37,5 +37,7 @@ fun main() {
     println("Cinema System Ready with Trending 2026 Movies")
     println("Screenings Loaded: ${screenings.size}")
     println("Films Loaded: ${films.size}")
+
     viewFilmsAndScreenings(films, screenings)
+    addFilmAndScreening(films, screenings)
 }
