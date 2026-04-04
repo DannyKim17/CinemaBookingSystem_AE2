@@ -47,3 +47,21 @@ fun addFilmAndScreening(films: MutableList<Film>, screenings: MutableList<Screen
     println("Price: £${newFilm.basePrice}")
     println("Screening: Hall $hall | $date | $time")
 }
+
+fun modifyTicketPricing(films: MutableList<Film>) {
+    println("===== Modify Ticket Pricing =====")
+    println("Enter a percentage to adjust all prices (e.g. 10 for +10%, -10 for -10%): ")
+    val percentage = readLine()?.toDoubleOrNull()
+
+    if (percentage == null) {
+        println("Invalid input, please enter a number.")
+        return
+    }
+
+    val factor = 1 + (percentage / 100)
+    for (film in films) {
+        film.basePrice = film.basePrice * factor
+        println("${film.title} new price: £${"%.2f".format(film.basePrice)}")
+    }
+    println("All prices updated successfully!")
+}

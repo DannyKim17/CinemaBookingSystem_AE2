@@ -40,4 +40,5 @@ fun main() {
 
     viewFilmsAndScreenings(films, screenings)
     addFilmAndScreening(films, screenings)
+    modifyTicketPricing(films)
 }
