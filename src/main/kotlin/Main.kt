@@ -37,16 +37,24 @@ fun main() {
     println("Screenings Loaded: ${screenings.size}")
     println("Films Loaded: ${films.size}")
 
-    println("\n===== Admin Menu =====")
-    println("1. View Films and Screenings")
-    println("2. Add New Film and Screening")
-    println("3. Modify Ticket Pricing")
-    print("Choose an option (1-3): ")
+    var running = true
+    while (running) {
+        println("\n===== Admin Menu =====")
+        println("1. View Films and Screenings")
+        println("2. Add New Film and Screening")
+        println("3. Modify Ticket Pricing")
+        println("4. Exit")
+        print("Choose an option (1-4): ")
 
-    when (readLine()?.trim()) {
-        "1" -> viewFilmsAndScreenings(films, screenings)
-        "2" -> addFilmAndScreening(films, screenings)
-        "3" -> modifyTicketPricing(films)
-        else -> println("Invalid option, please choose 1, 2 or 3")
+        when (readLine()?.trim()) {
+            "1" -> viewFilmsAndScreenings(films, screenings)
+            "2" -> addFilmAndScreening(films, screenings)
+            "3" -> modifyTicketPricing(films)
+            "4" -> {
+                println("Exiting admin menu, goodbye!")
+                running = false
+            }
+            else -> println("Invalid option, please choose 1, 2, 3 or 4")
+        }
     }
 }
