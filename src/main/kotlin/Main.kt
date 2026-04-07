@@ -43,18 +43,20 @@ fun main() {
         println("1. View Films and Screenings")
         println("2. Add New Film and Screening")
         println("3. Modify Ticket Pricing")
-        println("4. Exit")
-        print("Choose an option (1-4): ")
+        println("4. Search Films by Genre")
+        println("5. Exit")
+        print("Choose an option (1-5): ")
 
         when (readLine()?.trim()) {
             "1" -> viewFilmsAndScreenings(films, screenings)
             "2" -> addFilmAndScreening(films, screenings)
             "3" -> modifyTicketPricing(films)
-            "4" -> {
+            "4" -> searchFilmsByGenre(films, screenings)
+            "5" -> {
                 println("Exiting admin menu, goodbye!")
                 running = false
             }
-            else -> println("Invalid option, please choose 1, 2, 3 or 4")
+            else -> println("Invalid option, please choose 1, 2, 3, 4 or 5")
         }
     }
 }
