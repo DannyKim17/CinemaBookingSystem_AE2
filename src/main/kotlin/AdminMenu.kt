@@ -9,8 +9,7 @@ fun viewFilmsAndScreenings(films: List<Film>, screenings: List<Screening>) {
         println("Price: £${film.basePrice}")
         println("Tickets Sold: ${film.totalTicketsSold}")
         println("Screenings:")
-
-        // filtering only screenings that belong to this film
+        // filter only screenings that belong to this film
         val filmScreenings = screenings.filter { it.film == film }
         for (screening in filmScreenings) {
             println("  - Hall ${screening.hallNumber} | ${screening.date} | ${screening.startTime}")
@@ -23,7 +22,7 @@ fun addFilmAndScreening(films: MutableList<Film>, screenings: MutableList<Screen
     println("===== Add New Film =====")
     print("Enter film title: ")
     val title = readLine() ?: ""
-    // added this just in case someone hits enter without typing then they get a warning
+    // just in case someone hits enter without typing
     if (title.isEmpty()) {
         println("Warning: film title is empty!")
     }
@@ -45,7 +44,7 @@ fun addFilmAndScreening(films: MutableList<Film>, screenings: MutableList<Screen
     val newScreening = Screening(newFilm, hall, date, time, 0.0, makeSeats())
     screenings.add(newScreening)
 
-    // a summary so admin can confirm what was added
+    // show a summary so admin can confirm what was added
     println("Film and screening added successfully!")
     println("--- Added Film Details ---")
     println("Title: ${newFilm.title}")
@@ -64,11 +63,32 @@ fun modifyTicketPricing(films: MutableList<Film>) {
         return
     }
 
-    // calculates  the new price factor and applies to all films
+    // calculate the new price factor and apply to all films
     val factor = 1 + (percentage / 100)
     for (film in films) {
         film.basePrice = film.basePrice * factor
         println("${film.title} new price: £${"%.2f".format(film.basePrice)}")
     }
     println("All prices updated successfully!")
+}
+
+// also added another function that lets admin find films by genre quickly
+fun searchFilmsByGenre(films: List<Film>, screenings: List<Screening>) {
+    print("Enter genre to search for: ")
+    val genre = readLine() ?: ""
+    val results = films.filter { it.genre.lowercase() == genre.lowercase() }
+    if (results.isEmpty()) {
+        println("No films found for genre: $genre")
+    } else {
+        println("===== Films in genre: $genre =====")
+        results.forEachIndexed { index, film ->
+            println("Film ${index + 1}:")
+            film.displayInfo()
+            val filmScreenings = screenings.filter { it.film == film }
+            for (screening in filmScreenings) {
+                println("  - Hall ${screening.hallNumber} | ${screening.date} | ${screening.startTime}")
+            }
+            println("-----------------------------------")
+        }
+    }
 }
