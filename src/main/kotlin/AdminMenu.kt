@@ -23,7 +23,7 @@ fun addFilmAndScreening(films: MutableList<Film>, screenings: MutableList<Screen
     println("===== Add New Film =====")
     print("Enter film title: ")
     val title = readLine() ?: ""
-    // in case someone hits enter without typing then they get a warning
+    // added this just in case someone hits enter without typing then they get a warning
     if (title.isEmpty()) {
         println("Warning: film title is empty!")
     }
