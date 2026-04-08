@@ -1,7 +1,8 @@
 fun makeSeats() = List(10) { i -> Seat("S${i + 1}") }
-
 fun main() {
     val admin = User("admin", "Admin123", "Admin")
+    val users = listOf(admin)
+    val loginManager = LoginManager(users)
 
     // used some trending 2026 Movies
     val f1 = Film("The Bride!", "Horror", 12.0)
@@ -36,6 +37,14 @@ fun main() {
     println("Cinema System Ready with Trending 2026 Movies")
     println("Screenings Loaded: ${screenings.size}")
     println("Films Loaded: ${films.size}")
+
+    println("\n===== Please Login =====")
+    val loggedInUser = loginManager.login()
+
+    if (loggedInUser == null || loggedInUser.role != "Admin") {
+        println("Access denied. Only administrators can access this system.")
+        return
+    }
 
     var running = true
     while (running) {
