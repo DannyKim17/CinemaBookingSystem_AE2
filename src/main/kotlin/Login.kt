@@ -8,7 +8,7 @@ class LoginManager(private val users: List<User>) {
         val password = readLine()!!
 
         val user = users.find {
-            it.username == username && it.checkPassword(password)
+            it.username == username && it.password == password
         }
 
         if (user != null) {
