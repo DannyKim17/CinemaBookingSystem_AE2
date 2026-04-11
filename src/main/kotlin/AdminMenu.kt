@@ -92,3 +92,23 @@ fun searchFilmsByGenre(films: List<Film>, screenings: List<Screening>) {
         }
     }
 }
+fun manageSpecialOffers(offers: List<SpecialOffer>) {
+    println("===== Manage Special Offers =====")
+    offers.forEachIndexed { index, offer ->
+        val status = if (offer.isEnabled) "ENABLED" else "DISABLED"
+        println("${index + 1}. ${offer.name} - [$status]")
+        println("   ${offer.description}")
+    }
+    print("Choose offer to toggle (1-${offers.size}), or 0 to go back: ")
+    val choice = readLine()?.toIntOrNull()
+
+    if (choice == null || choice < 1 || choice > offers.size) {
+        if (choice != 0) println("Invalid choice.")
+        return
+    }
+
+    val offer = offers[choice - 1]
+    offer.isEnabled = !offer.isEnabled
+    val newStatus = if (offer.isEnabled) "ENABLED" else "DISABLED"
+    println("${offer.name} is now $newStatus")
+}
