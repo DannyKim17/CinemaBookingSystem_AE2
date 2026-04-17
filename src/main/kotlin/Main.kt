@@ -66,6 +66,7 @@ fun main() {
             println("6. Exit")
             print("Choose an option (1-6): ")
 
+// small error i fixed it took so long
             when (readLine()?.trim()) {
                 "1" -> viewFilmsAndScreenings(films, screenings)
                 "2" -> addFilmAndScreening(films, screenings)
