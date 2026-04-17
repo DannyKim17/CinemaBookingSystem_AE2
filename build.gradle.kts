@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "2.1.10"
 }
 
 group = "org.example"
@@ -10,11 +10,22 @@ repositories {
 }
 
 dependencies {
-    // This allows your code to run
     implementation(kotlin("stdlib"))
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 kotlin {
-    // This forces the project to use Java 21
     jvmToolchain(21)
+}
+
+// This block ensures the Kotlin compiler uses the correct version
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+    }
 }
