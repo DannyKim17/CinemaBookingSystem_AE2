@@ -63,7 +63,7 @@ fun modifyTicketPricing(films: MutableList<Film>) {
         return
     }
 
-    // calculate the new price factor and apply to all films
+    // this wil calculate the new price factor and apply to all films
     val factor = 1 + (percentage / 100)
     for (film in films) {
         film.basePrice = film.basePrice * factor
