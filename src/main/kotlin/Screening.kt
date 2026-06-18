@@ -1,9 +1,8 @@
-// single showing of a film and also the time in a specific hall
-class Screening(
-    val film: Film,
+data class Screening(
+    val id: Int = 0,
+    val filmId: Int,
     val hallNumber: Int,
     val date: String,
-    val startTime: String, // e.g., "10:30"
-    var totalTakings: Double = 0.0,
-    val seats: List<Seat> = mutableListOf()
+    val startTime: String,
+    var totalTakings: Double = 0.0
 )
