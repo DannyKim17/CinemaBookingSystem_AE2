@@ -1,4 +1,5 @@
-class Film(
+data class Film(
+    val id: Int = 0,
     val title: String,
     val genre: String,
     var basePrice: Double,
