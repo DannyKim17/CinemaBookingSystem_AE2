@@ -27,7 +27,7 @@ fun applyOffers(
 
         pricePerTicket *= 0.75
     }
-// Kids Discount (30% off)
+    // Kids Discount (30% off)
     val kidsOffer = offers.find { it.name == "Kids Discount" }
 
     if (kidsOffer != null &&
@@ -35,6 +35,21 @@ fun applyOffers(
         isChild) {
 
         pricePerTicket *= 0.70
+    }
+
+    // Group Discount
+    // First 2 tickets full price
+    // Additional tickets get 30% off
+    val groupOffer = offers.find { it.name == "Group Discount" }
+
+    if (groupOffer != null &&
+        groupOffer.isEnabled &&
+        numberOfTickets > 2) {
+
+        val additionalTickets = numberOfTickets - 2
+
+        return (2 * pricePerTicket) +
+                (additionalTickets * (pricePerTicket * 0.70))
     }
     return pricePerTicket * numberOfTickets
 }
