@@ -13,6 +13,11 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     implementation("org.xerial:sqlite-jdbc:3.49.1.0")
+
+    testImplementation(kotlin("test"))
+
+    testImplementation(
+        "org.junit.jupiter:junit-jupiter:5.10.2")
 }
 
 java {
@@ -30,4 +35,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
