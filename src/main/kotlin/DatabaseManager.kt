@@ -336,4 +336,58 @@ class DatabaseManager {
 
         return seats
     }
+
+    fun saveBooking(
+        userId: Int,
+        screeningId: Int,
+        totalPrice: Double
+    ) {
+
+        val connection = connect()
+
+        val statement = connection.prepareStatement(
+            """
+        INSERT INTO bookings
+        (user_id, screening_id, total_price)
+        VALUES (?, ?, ?)
+        """
+        )
+
+        statement.setInt(1, userId)
+        statement.setInt(2, screeningId)
+        statement.setDouble(3, totalPrice)
+
+        statement.executeUpdate()
+
+        connection.close()
+    }
+
+    fun getAllBookings(): List<Booking> {
+
+        val bookings = mutableListOf<Booking>()
+
+        val connection = connect()
+
+        val statement = connection.createStatement()
+
+        val resultSet =
+            statement.executeQuery("SELECT * FROM bookings")
+
+        while (resultSet.next()) {
+
+            bookings.add(
+                Booking(
+                    id = resultSet.getInt("id"),
+                    userId = resultSet.getInt("user_id"),
+                    screeningId = resultSet.getInt("screening_id"),
+                    totalPrice = resultSet.getDouble("total_price")
+                )
+            )
+        }
+
+        connection.close()
+
+        return bookings
+    }
+
 }
