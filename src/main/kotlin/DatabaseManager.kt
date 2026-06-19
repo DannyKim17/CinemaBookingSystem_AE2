@@ -277,5 +277,62 @@ class DatabaseManager {
         return offers
     }
 
+    fun insertSampleSeats() {
 
+        val connection = connect()
+
+        val statement = connection.createStatement()
+
+        for (screeningId in 1..12) {
+
+            statement.execute("""
+            INSERT OR IGNORE INTO seats
+            (screening_id, seat_number, is_available)
+            VALUES
+            ($screeningId, 'A1', 1),
+            ($screeningId, 'A2', 1),
+            ($screeningId, 'A3', 1),
+            ($screeningId, 'A4', 1),
+            ($screeningId, 'A5', 1),
+            ($screeningId, 'B1', 1),
+            ($screeningId, 'B2', 1),
+            ($screeningId, 'B3', 1),
+            ($screeningId, 'B4', 1),
+            ($screeningId, 'B5', 1)
+        """)
+        }
+
+        connection.close()
+    }
+
+    fun getSeatsForScreening(screeningId: Int): List<Seat> {
+
+        val seats = mutableListOf<Seat>()
+
+        val connection = connect()
+
+        val statement = connection.prepareStatement(
+            "SELECT * FROM seats WHERE screening_id = ?"
+        )
+
+        statement.setInt(1, screeningId)
+
+        val resultSet = statement.executeQuery()
+
+        while (resultSet.next()) {
+
+            seats.add(
+                Seat(
+                    id = resultSet.getInt("id"),
+                    screeningId = resultSet.getInt("screening_id"),
+                    seatNumber = resultSet.getString("seat_number"),
+                    isAvailable = resultSet.getInt("is_available") == 1
+                )
+            )
+        }
+
+        connection.close()
+
+        return seats
+    }
 }
