@@ -53,12 +53,12 @@ fun main() {
                 """
             ADMIN MENU
             
-            1. View Films and Screenings
-            2. Add New Film and Screening
+            1. View Films & Screenings
+            2. Add Film & Screening
             3. Modify Ticket Pricing
             4. Search Films by Genre
             5. Manage Special Offers
-            6. Exit
+            0. Logout
             """.trimIndent()
             )
 
@@ -87,18 +87,20 @@ fun main() {
                     offers
                 )
 
-                "6" -> {
+                "0" -> {
                     JOptionPane.showMessageDialog(
                         null,
-                        "Goodbye!"
+                        "Logged out"
                     )
                     running = false
                 }
 
-                else -> JOptionPane.showMessageDialog(
-                    null,
-                    "Invalid option"
-                )
+                else -> {
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid option"
+                    )
+                }
             }
         }
     } else if (loggedInUser.role == "Customer") {
