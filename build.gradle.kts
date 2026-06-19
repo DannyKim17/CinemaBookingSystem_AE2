@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+
+    implementation("org.xerial:sqlite-jdbc:3.49.1.0")
 }
 
 java {
