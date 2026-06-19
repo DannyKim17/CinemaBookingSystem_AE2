@@ -1,6 +1,9 @@
 class LoginManager(private val users: List<User>) {
 
-    fun login(): User? {
+    fun login(
+        username: String,
+        password: String
+    ): User? {
 
         println("Username:")
         val username = readLine() ?: ""
