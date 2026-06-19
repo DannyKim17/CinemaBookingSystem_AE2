@@ -34,7 +34,14 @@ fun main() {
     println("Screenings Loaded: ${screenings.size}")
 
     println("\n===== Please Login =====")
-    val loggedInUser = loginManager.login()
+    print("Username: ")
+    val username = readLine() ?: ""
+
+    print("Password: ")
+    val password = readLine() ?: ""
+
+    val loggedInUser =
+        loginManager.login(username, password)
 
     if (loggedInUser == null) {
         println("Access denied. Invalid credentials.")
