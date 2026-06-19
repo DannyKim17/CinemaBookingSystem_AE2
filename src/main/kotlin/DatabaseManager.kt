@@ -414,5 +414,31 @@ class DatabaseManager {
         connection.close()
     }
 
+    fun updateSeatAvailability(
+        seatId: Int,
+        available: Boolean
+    ) {
+
+        val connection = connect()
+
+        val statement = connection.prepareStatement(
+            """
+        UPDATE seats
+        SET is_available = ?
+        WHERE id = ?
+        """
+        )
+
+        statement.setInt(
+            1,
+            if (available) 1 else 0
+        )
+
+        statement.setInt(2, seatId)
+
+        statement.executeUpdate()
+
+        connection.close()
+    }
 
 }

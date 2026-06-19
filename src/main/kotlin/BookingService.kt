@@ -50,6 +50,38 @@ fun bookTicket(
 
     val selectedScreening = filmScreenings[screeningChoice - 1]
 
+    val availableSeats =
+        databaseManager
+            .getSeatsForScreening(selectedScreening.id)
+            .filter { it.isAvailable }
+
+    if (availableSeats.isEmpty()) {
+        println("No seats available.")
+        return
+    }
+
+    println("\nAvailable Seats:")
+
+    availableSeats.forEachIndexed { index, seat ->
+        println("${index + 1}. ${seat.seatNumber}")
+    }
+
+    print("Choose seat: ")
+
+    val seatChoice =
+        readLine()?.toIntOrNull()
+
+    if (
+        seatChoice == null ||
+        seatChoice !in 1..availableSeats.size
+    ) {
+        println("Invalid seat.")
+        return
+    }
+
+    val selectedSeat =
+        availableSeats[seatChoice - 1]
+
     print("Number of tickets: ")
     val numberOfTickets = readLine()?.toIntOrNull() ?: 1
 
@@ -84,6 +116,22 @@ fun bookTicket(
     )
 
     bookings.add(booking)
+
+    databaseManager.saveBooking(
+        user.id,
+        selectedScreening.id,
+        totalPrice
+    )
+
+    databaseManager.updateScreeningTakings(
+        selectedScreening.id,
+        totalPrice
+    )
+
+    databaseManager.updateSeatAvailability(
+        selectedSeat.id,
+        false
+    )
 
     println("Booking successful!")
 }
