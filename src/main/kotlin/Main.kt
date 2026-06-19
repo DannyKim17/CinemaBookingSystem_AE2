@@ -25,7 +25,8 @@ fun main() {
     val offers =
         databaseManager.getAllOffers().toMutableList()
 
-    val bookings = mutableListOf<Booking>()
+    val bookings =
+        databaseManager.getAllBookings().toMutableList()
 
     println("Cinema System Ready with Trending 2026 Movies")
     println("Films Loaded: ${films.size}")

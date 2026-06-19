@@ -390,4 +390,29 @@ class DatabaseManager {
         return bookings
     }
 
+    fun updateScreeningTakings(
+        screeningId: Int,
+        amount: Double
+    ) {
+
+        val connection = connect()
+
+        val statement = connection.prepareStatement(
+            """
+        UPDATE screenings
+        SET total_takings =
+            total_takings + ?
+        WHERE id = ?
+        """
+        )
+
+        statement.setDouble(1, amount)
+        statement.setInt(2, screeningId)
+
+        statement.executeUpdate()
+
+        connection.close()
+    }
+
+
 }
