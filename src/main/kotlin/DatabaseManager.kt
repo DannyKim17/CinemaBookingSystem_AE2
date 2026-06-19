@@ -61,7 +61,8 @@ class DatabaseManager {
         screening_id INTEGER NOT NULL,
         seat_number TEXT NOT NULL,
         is_available INTEGER DEFAULT 1,
-        FOREIGN KEY (screening_id) REFERENCES screenings(id)
+        FOREIGN KEY (screening_id) REFERENCES screenings(id),
+        UNIQUE(screening_id, seat_number)
     )
 """)
 

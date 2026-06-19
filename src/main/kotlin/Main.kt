@@ -6,8 +6,8 @@ fun main() {
     databaseManager.insertSampleFilms()
     databaseManager.insertSampleScreenings()
     databaseManager.insertSampleOffers()
-
     databaseManager.insertSampleUsers()
+    databaseManager.insertSampleSeats()
 
     val users =
         databaseManager.getAllUsers()
