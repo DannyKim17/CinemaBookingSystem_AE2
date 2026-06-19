@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane
+
 fun bookTicket(
     user: User,
     films: List<Film>,
@@ -5,19 +7,21 @@ fun bookTicket(
     offers: List<SpecialOffer>,
     bookings: MutableList<Booking>,
     databaseManager: DatabaseManager
-)
-{
-    println("\n===== Book a Ticket =====")
+) {
 
-    films.forEachIndexed { index, film ->
-        println("${index + 1}. ${film.title} (${film.genre}) - £${film.basePrice}")
+    val filmList = buildString {
+        films.forEachIndexed { index, film ->
+            append("${index + 1}. ${film.title} (${film.genre}) - £${film.basePrice}\n")
+        }
     }
 
-    print("Choose a film (1-${films.size}): ")
-    val filmChoice = readLine()?.toIntOrNull()
+    val filmChoice = JOptionPane.showInputDialog(
+        null,
+        "Choose a Film:\n\n$filmList"
+    )?.toIntOrNull()
 
     if (filmChoice == null || filmChoice !in 1..films.size) {
-        println("Invalid film choice.")
+        JOptionPane.showMessageDialog(null, "Invalid film choice")
         return
     }
 
@@ -28,27 +32,33 @@ fun bookTicket(
     }
 
     if (filmScreenings.isEmpty()) {
-        println("No screenings available.")
+        JOptionPane.showMessageDialog(null, "No screenings available")
         return
     }
 
-    println("\nAvailable screenings:")
-    filmScreenings.forEachIndexed { index, screening ->
-        println(
-            "${index + 1}. Hall ${screening.hallNumber} | " +
-                    "${screening.date} | ${screening.startTime}"
-        )
+    val screeningList = buildString {
+        filmScreenings.forEachIndexed { index, screening ->
+            append(
+                "${index + 1}. Hall ${screening.hallNumber} | " +
+                        "${screening.date} | ${screening.startTime}\n"
+            )
+        }
     }
 
-    print("Choose screening: ")
-    val screeningChoice = readLine()?.toIntOrNull()
+    val screeningChoice = JOptionPane.showInputDialog(
+        null,
+        "Choose Screening:\n\n$screeningList"
+    )?.toIntOrNull()
 
-    if (screeningChoice == null || screeningChoice !in 1..filmScreenings.size) {
-        println("Invalid screening.")
+    if (screeningChoice == null ||
+        screeningChoice !in 1..filmScreenings.size
+    ) {
+        JOptionPane.showMessageDialog(null, "Invalid screening")
         return
     }
 
-    val selectedScreening = filmScreenings[screeningChoice - 1]
+    val selectedScreening =
+        filmScreenings[screeningChoice - 1]
 
     val availableSeats =
         databaseManager
@@ -56,37 +66,59 @@ fun bookTicket(
             .filter { it.isAvailable }
 
     if (availableSeats.isEmpty()) {
-        println("No seats available.")
+        JOptionPane.showMessageDialog(null, "No seats available")
         return
     }
+    val seatList = buildString {
 
-    println("\nAvailable Seats:")
+        availableSeats.chunked(5).forEach { row ->
 
-    availableSeats.forEachIndexed { index, seat ->
-        println("${index + 1}. ${seat.seatNumber}")
+            row.forEach { seat ->
+
+                append(
+                    seat.seatNumber.padEnd(6)
+                )
+            }
+
+            append("\n")
+        }
     }
-
-    print("Choose seat: ")
-
-    val seatChoice =
-        readLine()?.toIntOrNull()
-
-    if (
-        seatChoice == null ||
-        seatChoice !in 1..availableSeats.size
-    ) {
-        println("Invalid seat.")
-        return
-    }
+    val seatChoice = JOptionPane.showInputDialog(
+        null,
+        "Available Seats:\n\n$seatList\n\nEnter seat number:"
+    )
 
     val selectedSeat =
-        availableSeats[seatChoice - 1]
+        availableSeats.find {
+            it.seatNumber.equals(
+                seatChoice,
+                ignoreCase = true
+            )
+        }
 
-    print("Number of tickets: ")
-    val numberOfTickets = readLine()?.toIntOrNull() ?: 1
+    if (selectedSeat == null) {
 
-    print("Child ticket? (yes/no): ")
-    val isChild = readLine()?.trim()?.lowercase() == "yes"
+        JOptionPane.showMessageDialog(
+            null,
+            "Invalid seat"
+        )
+        return
+    }
+
+    val numberOfTickets =
+        JOptionPane.showInputDialog(
+            null,
+            "Number of tickets:"
+        )?.toIntOrNull() ?: 1
+
+    val childAnswer =
+        JOptionPane.showInputDialog(
+            null,
+            "Child ticket? (yes/no)"
+        )
+
+    val isChild =
+        childAnswer?.lowercase() == "yes"
 
     val totalPrice = applyOffers(
         selectedFilm.basePrice,
@@ -96,15 +128,22 @@ fun bookTicket(
         offers
     )
 
-    println("Total price: £${"%.2f".format(totalPrice)}")
-
-    print("Enter payment amount: £")
+    JOptionPane.showMessageDialog(
+        null,
+        "Total Price: £${"%.2f".format(totalPrice)}"
+    )
 
     val payment =
-        readLine()?.toDoubleOrNull() ?: 0.0
+        JOptionPane.showInputDialog(
+            null,
+            "Enter payment amount:"
+        )?.toDoubleOrNull() ?: 0.0
 
     if (payment < totalPrice) {
-        println("Insufficient funds.")
+        JOptionPane.showMessageDialog(
+            null,
+            "Insufficient funds"
+        )
         return
     }
 
@@ -133,29 +172,45 @@ fun bookTicket(
         false
     )
 
-    println("Booking successful!")
+    JOptionPane.showMessageDialog(
+        null,
+        "Booking Successful!"
+    )
 }
 
 fun viewBookings(
     user: User,
     bookings: List<Booking>
 ) {
-    println("\n===== Your Bookings =====")
 
-    val userBookings = bookings.filter {
-        it.userId == user.id
-    }
+    val userBookings =
+        bookings.filter {
+            it.userId == user.id
+        }
 
     if (userBookings.isEmpty()) {
-        println("You have no bookings yet.")
+
+        JOptionPane.showMessageDialog(
+            null,
+            "You have no bookings yet."
+        )
         return
     }
 
-    userBookings.forEach {
-        println(
-            "Booking ID: ${it.id} | " +
-                    "Screening ID: ${it.screeningId} | " +
-                    "Price: £${"%.2f".format(it.totalPrice)}"
-        )
+    val bookingText = buildString {
+
+        userBookings.forEach {
+
+            append(
+                "Booking ID: ${it.id} | " +
+                        "Screening ID: ${it.screeningId} | " +
+                        "Price: £${"%.2f".format(it.totalPrice)}\n"
+            )
+        }
     }
+
+    JOptionPane.showMessageDialog(
+        null,
+        bookingText
+    )
 }

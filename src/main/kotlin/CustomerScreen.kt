@@ -1,27 +1,44 @@
+import javax.swing.JOptionPane
+
 class CustomerScreen {
 
     fun showMenu() {
-        println("\n===== Customer Menu =====")
-        println("1. View Films")
-        println("2. View Screenings")
-        println("3. Book Ticket")
-        println("4. View Bookings")
-        println("0. Logout")
+        JOptionPane.showMessageDialog(
+            null,
+            """
+            CUSTOMER MENU
+            
+            1. View Films
+            2. View Screenings
+            3. Book Ticket
+            4. View Bookings
+            0. Logout
+            """.trimIndent()
+        )
     }
 
     fun viewFilms(
         films: List<Film>
     ) {
 
-        println("\n===== Films =====")
+        val filmText = buildString {
 
-        films.forEach {
-            println(
-                "${it.id}. ${it.title} | " +
-                        "${it.genre} | " +
-                        "£${it.basePrice}"
-            )
+            films.forEach {
+
+                append(
+                    "${it.id}. ${it.title} | " +
+                            "${it.genre} | " +
+                            "£${it.basePrice}\n"
+                )
+            }
         }
+
+        JOptionPane.showMessageDialog(
+            null,
+            filmText,
+            "Films",
+            JOptionPane.INFORMATION_MESSAGE
+        )
     }
 
     fun viewScreenings(
@@ -29,22 +46,30 @@ class CustomerScreen {
         films: List<Film>
     ) {
 
-        println("\n===== Screenings =====")
+        val screeningText = buildString {
 
-        screenings.forEach { screening ->
+            screenings.forEach { screening ->
 
-            val film =
-                films.find {
-                    it.id == screening.filmId
-                }
+                val film =
+                    films.find {
+                        it.id == screening.filmId
+                    }
 
-            println(
-                "${screening.id}. " +
-                        "${film?.title} | " +
-                        "${screening.date} | " +
-                        "${screening.startTime} | " +
-                        "Hall ${screening.hallNumber}"
-            )
+                append(
+                    "${screening.id}. " +
+                            "${film?.title} | " +
+                            "${screening.date} | " +
+                            "${screening.startTime} | " +
+                            "Hall ${screening.hallNumber}\n"
+                )
+            }
         }
+
+        JOptionPane.showMessageDialog(
+            null,
+            screeningText,
+            "Screenings",
+            JOptionPane.INFORMATION_MESSAGE
+        )
     }
 }

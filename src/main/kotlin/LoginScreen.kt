@@ -1,16 +1,22 @@
+import javax.swing.JOptionPane
+
 class LoginScreen {
 
     fun login(
         loginManager: LoginManager
     ): User? {
 
-        println("===== Please Login =====")
+        val username =
+            JOptionPane.showInputDialog(
+                null,
+                "Enter Username"
+            ) ?: return null
 
-        print("Username: ")
-        val username = readLine() ?: ""
-
-        print("Password: ")
-        val password = readLine() ?: ""
+        val password =
+            JOptionPane.showInputDialog(
+                null,
+                "Enter Password"
+            ) ?: return null
 
         return loginManager.login(
             username,

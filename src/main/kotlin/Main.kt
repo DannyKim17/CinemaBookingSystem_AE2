@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane
+
 fun main() {
 
     val databaseManager = DatabaseManager()
@@ -33,15 +35,8 @@ fun main() {
     println("Films Loaded: ${films.size}")
     println("Screenings Loaded: ${screenings.size}")
 
-    println("\n===== Please Login =====")
-    print("Username: ")
-    val username = readLine() ?: ""
-
-    print("Password: ")
-    val password = readLine() ?: ""
-
     val loggedInUser =
-        loginManager.login(username, password)
+        loginScreen.login(loginManager)
 
     if (loggedInUser == null) {
         println("Access denied. Invalid credentials.")
@@ -49,45 +44,123 @@ fun main() {
     }
 
     if (loggedInUser.role == "Admin") {
-        var running = true
-        while (running) {
-            println("\n===== Admin Menu =====")
-            println("1. View Films and Screenings")
-            println("2. Add New Film and Screening")
-            println("3. Modify Ticket Pricing")
-            println("4. Search Films by Genre")
-            println("5. Manage Special Offers")
-            println("6. Exit")
-            print("Choose an option (1-6): ")
 
-// small error i fixed it took so long
-            when (readLine()?.trim()) {
-                "1" -> adminScreen.viewFilmsAndScreenings(films, screenings)
-                "2" -> adminScreen.addFilmAndScreening(films, screenings)
-                "3" -> adminScreen.modifyTicketPricing(films)
-                "4" -> adminScreen.searchFilmsByGenre(films, screenings)
-                "5" -> adminScreen.manageSpecialOffers(offers)
+        var running = true
+
+        while (running) {
+
+            val choice = JOptionPane.showInputDialog(
+                """
+            ADMIN MENU
+            
+            1. View Films and Screenings
+            2. Add New Film and Screening
+            3. Modify Ticket Pricing
+            4. Search Films by Genre
+            5. Manage Special Offers
+            6. Exit
+            """.trimIndent()
+            )
+
+            when (choice) {
+
+                "1" -> adminScreen.viewFilmsAndScreenings(
+                    films,
+                    screenings
+                )
+
+                "2" -> adminScreen.addFilmAndScreening(
+                    films,
+                    screenings
+                )
+
+                "3" -> adminScreen.modifyTicketPricing(
+                    films
+                )
+
+                "4" -> adminScreen.searchFilmsByGenre(
+                    films,
+                    screenings
+                )
+
+                "5" -> adminScreen.manageSpecialOffers(
+                    offers
+                )
+
                 "6" -> {
-                    println("Exiting admin menu, goodbye!")
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Goodbye!"
+                    )
                     running = false
                 }
-                else -> println("Invalid option, please choose 1 to 6")
+
+                else -> JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid option"
+                )
             }
         }
     } else if (loggedInUser.role == "Customer") {
+
         var running = true
+
         while (running) {
-            customerScreen.showMenu()
-            print("Choose an option: ")
-            when (readLine()?.trim()) {
-                "1" -> adminScreen.viewFilmsAndScreenings(films, screenings)
-                "2" -> bookTicket(loggedInUser, films, screenings, offers, bookings, databaseManager)
-                "3" -> viewBookings(loggedInUser, bookings)
+
+            val choice = JOptionPane.showInputDialog(
+                """
+            CUSTOMER MENU
+            
+            1. View Films
+            2. View Screenings
+            3. Book Ticket
+            4. View Bookings
+            0. Logout
+            """.trimIndent()
+            )
+
+            when (choice) {
+
+                "1" -> customerScreen.viewFilms(
+                    films
+                )
+
+                "2" -> customerScreen.viewScreenings(
+                    screenings,
+                    films
+                )
+
+                "3" -> bookTicket(
+                    loggedInUser,
+                    films,
+                    screenings,
+                    offers,
+                    bookings,
+                    databaseManager
+                )
+
+                "4" -> viewBookings(
+                    loggedInUser,
+                    bookings
+                )
+
                 "0" -> {
-                    println("Logging out...")
+
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Logged out"
+                    )
+
                     running = false
                 }
-                else -> println("Invalid option, please try again.")
+
+                else -> {
+
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid option"
+                    )
+                }
             }
         }
     }
