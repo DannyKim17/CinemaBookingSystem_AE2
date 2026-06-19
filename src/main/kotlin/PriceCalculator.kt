@@ -27,6 +27,14 @@ fun applyOffers(
 
         pricePerTicket *= 0.75
     }
+// Kids Discount (30% off)
+    val kidsOffer = offers.find { it.name == "Kids Discount" }
 
+    if (kidsOffer != null &&
+        kidsOffer.isEnabled &&
+        isChild) {
+
+        pricePerTicket *= 0.70
+    }
     return pricePerTicket * numberOfTickets
 }
