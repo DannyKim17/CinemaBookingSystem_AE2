@@ -1,17 +1,21 @@
 fun main() {
+
+    val databaseManager = DatabaseManager()
+
+    databaseManager.createTables()
+    databaseManager.insertSampleFilms()
+
     val admin = User(1, "admin", "Admin123", "Admin")
     val customer = User(2, "user", "User123", "Customer")
+
     val users = listOf(admin, customer)
+
     val loginManager = LoginManager(users)
     val adminScreen = AdminScreen()
     val customerScreen = CustomerScreen()
 
-    val f1 = Film(1, "The Bride!", "Horror", 12.0)
-    val f2 = Film(2, "Reminders of Him", "Drama", 10.5)
-    val f3 = Film(3, "Project Hail Mary", "Sci-Fi", 13.0)
-    val f4 = Film(4, "Ready or Not 2", "Horror", 11.0)
-
-    val films = mutableListOf(f1, f2, f3, f4)
+    val films =
+        databaseManager.getAllFilms().toMutableList()
     val screenings = mutableListOf<Screening>()
 
     // horror
