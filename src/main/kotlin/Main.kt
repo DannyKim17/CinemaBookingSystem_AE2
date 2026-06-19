@@ -4,11 +4,13 @@ fun main() {
 
     databaseManager.createTables()
     databaseManager.insertSampleFilms()
+    databaseManager.insertSampleScreenings()
+    databaseManager.insertSampleOffers()
 
-    val admin = User(1, "admin", "Admin123", "Admin")
-    val customer = User(2, "user", "User123", "Customer")
+    databaseManager.insertSampleUsers()
 
-    val users = listOf(admin, customer)
+    val users =
+        databaseManager.getAllUsers()
 
     val loginManager = LoginManager(users)
     val adminScreen = AdminScreen()
@@ -16,33 +18,12 @@ fun main() {
 
     val films =
         databaseManager.getAllFilms().toMutableList()
-    val screenings = mutableListOf<Screening>()
 
-    // horror
-    screenings.add(Screening(1, 1, 1, "2026-03-23", "09:30"))
-    screenings.add(Screening(2, 1, 1, "2026-03-23", "15:00"))
-    screenings.add(Screening(3, 1, 2, "2026-03-24", "20:00"))
+    val screenings =
+        databaseManager.getAllScreenings().toMutableList()
 
-    // drama
-    screenings.add(Screening(4, 2, 1, "2026-03-23", "13:00"))
-    screenings.add(Screening(5, 2, 2, "2026-03-24", "17:30"))
-    screenings.add(Screening(6, 2, 1, "2026-03-25", "19:00"))
-
-    // sci-fi
-    screenings.add(Screening(7, 3, 3, "2026-03-23", "11:00"))
-    screenings.add(Screening(8, 3, 3, "2026-03-24", "16:00"))
-    screenings.add(Screening(9, 3, 3, "2026-03-25", "21:00"))
-
-    // late night horror
-    screenings.add(Screening(10, 4, 2, "2026-03-23", "18:30"))
-    screenings.add(Screening(11, 4, 1, "2026-03-24", "21:30"))
-    screenings.add(Screening(12, 4, 2, "2026-03-25", "23:00"))
-
-    val offers = mutableListOf(
-        SpecialOffer(1, "Morning Discount", "25% off weekday screenings before 12:00", true),
-        SpecialOffer(2, "Group Discount", "First 2 tickets full price, additional tickets 30% off", true),
-        SpecialOffer(3, "Kids Discount", "30% off for children", true)
-    )
+    val offers =
+        databaseManager.getAllOffers().toMutableList()
 
     val bookings = mutableListOf<Booking>()
 
