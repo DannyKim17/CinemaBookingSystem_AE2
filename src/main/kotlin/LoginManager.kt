@@ -5,12 +5,6 @@ class LoginManager(private val users: List<User>) {
         password: String
     ): User? {
 
-        println("Username:")
-        val username = readLine() ?: ""
-
-        println("Password:")
-        val password = readLine() ?: ""
-
         val user = users.find {
             it.username == username &&
                     it.password == password
