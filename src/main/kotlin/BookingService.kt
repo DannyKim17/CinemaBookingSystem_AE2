@@ -3,7 +3,8 @@ fun bookTicket(
     films: List<Film>,
     screenings: List<Screening>,
     offers: List<SpecialOffer>,
-    bookings: MutableList<Booking>
+    bookings: MutableList<Booking>,
+    databaseManager: DatabaseManager
 )
 {
     println("\n===== Book a Ticket =====")
@@ -64,6 +65,16 @@ fun bookTicket(
     )
 
     println("Total price: £${"%.2f".format(totalPrice)}")
+
+    print("Enter payment amount: £")
+
+    val payment =
+        readLine()?.toDoubleOrNull() ?: 0.0
+
+    if (payment < totalPrice) {
+        println("Insufficient funds.")
+        return
+    }
 
     val booking = Booking(
         id = bookings.size + 1,

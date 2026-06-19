@@ -13,6 +13,7 @@ fun main() {
         databaseManager.getAllUsers()
 
     val loginManager = LoginManager(users)
+    val loginScreen = LoginScreen()
     val adminScreen = AdminScreen()
     val customerScreen = CustomerScreen()
 
@@ -73,7 +74,7 @@ fun main() {
             print("Choose an option: ")
             when (readLine()?.trim()) {
                 "1" -> adminScreen.viewFilmsAndScreenings(films, screenings)
-                "2" -> bookTicket(loggedInUser, films, screenings, offers, bookings)
+                "2" -> bookTicket(loggedInUser, films, screenings, offers, bookings, databaseManager)
                 "3" -> viewBookings(loggedInUser, bookings)
                 "0" -> {
                     println("Logging out...")
